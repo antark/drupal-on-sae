@@ -63,6 +63,7 @@ function image_get_available_toolkits() {
 function image_get_toolkit() {
   static $toolkit;
 
+  return 'saegd';
   if (!isset($toolkit)) {
     $toolkits = image_get_available_toolkits();
     $toolkit = variable_get('image_toolkit', 'gd');

@@ -133,7 +133,8 @@ function file_get_stream_wrappers($filter = STREAM_WRAPPERS_ALL) {
     $existing = stream_get_wrappers();
     foreach ($wrappers as $scheme => $info) {
       // We only register classes that implement our interface.
-      if (in_array('DrupalStreamWrapperInterface', class_implements($info['class']), TRUE)) {
+	  if (in_array('DPSAE_DrupalStreamWrapperInterface', class_implements($info['class']), TRUE)) {
+      //if (in_array('DrupalStreamWrapperInterface', class_implements($info['class']), TRUE)) {
         // Record whether we are overriding an existing scheme.
         if (in_array($scheme, $existing, TRUE)) {
           $wrappers[$scheme]['override'] = TRUE;
@@ -459,6 +460,7 @@ function file_prepare_directory(&$directory, $options = FILE_MODIFY_PERMISSIONS)
  * Creates a .htaccess file in each Drupal files directory if it is missing.
  */
 function file_ensure_htaccess() {
+  return;
   file_create_htaccess('public://', FALSE);
   if (variable_get('file_private_path', FALSE)) {
     file_create_htaccess('private://', TRUE);

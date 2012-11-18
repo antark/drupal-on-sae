@@ -1,0 +1,7 @@
+---
+name: ilovers
+version: 3
+handle:
+  - rewrite:if (!is_file() && !is_dir() && path ~ "^/(.*)") goto "?q=/$1&%{QUERY_STRING}"
+  - rewrite:if (!is_file() && !is_dir() && path ~ "^\/([^\?]*)\?(.*)$") goto "?q=/$1&$2"
+...

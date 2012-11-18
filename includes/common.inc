@@ -882,19 +882,23 @@ function drupal_http_request($url, array $options = array()) {
   }
 
   if (empty($options['context'])) {
-    $fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout']);
+    //$fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout']);
+	$fp = @fsockopen($uri['host'], $port, $errno, $errstr, $options['timeout']);
   }
   else {
     // Create a stream with context. Allows verification of a SSL certificate.
-    $fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout'], STREAM_CLIENT_CONNECT, $options['context']);
+    //$fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout'], STREAM_CLIENT_CONNECT, $options['context']);
+	$fp = @fsockopen($uri['host'], $port, $errno, $errstr, $options['timeout']);
   }
 
   // Make sure the socket opened properly.
   if (!$fp) {
     // When a network error occurs, we use a negative number so it does not
     // clash with the HTTP status codes.
-    $result->code = -$errno;
-    $result->error = trim($errstr) ? trim($errstr) : t('Error opening socket @socket', array('@socket' => $socket));
+    //$result->code = -$errno;
+    //$result->error = trim($errstr) ? trim($errstr) : t('Error opening socket @socket', array('@socket' => $socket));
+	$result->code = empty($errno) ? -1 : -$errno;
+    $result->error = isset($errstr) && trim($errstr) ? trim($errstr) : t('Error opening socket @socket', array('@socket' => $socket));
 
     // Mark that this request failed. This will trigger a check of the web
     // server's ability to make outgoing HTTP requests the next time that
